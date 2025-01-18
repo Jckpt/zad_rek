@@ -1,20 +1,27 @@
 import * as fs from "fs";
 import * as path from "path";
-import { parse } from 'csv-parse';
-import { getHighestConsecutiveValue, getHighestValueDrop, getHighestValueDropSum, getValueDropPeriods } from "./utils";
+import { parse } from "csv-parse";
+import {
+  getHighestConsecutiveValue,
+  getHighestValueDrop,
+  getHighestValueDropSum,
+  getValueDropPeriods,
+} from "./utils";
 import { Item } from "./types";
 
 (async () => {
-  const csvFilePath = path.resolve(__dirname, 'data/ceny_akcji.csv');
-  
-  const headers = ['id', 'date', 'price', 'currency'];
-  
-  const fileStream = fs.createReadStream(csvFilePath, { encoding: 'utf-8' });
+  const csvFilePath = path.resolve(__dirname, "data/ceny_akcji.csv");
 
-  const parser = fileStream.pipe(parse({
-    delimiter: ',',
-    columns: headers,
-  }));
+  const headers = ["id", "date", "price", "currency"];
+
+  const fileStream = fs.createReadStream(csvFilePath, { encoding: "utf-8" });
+
+  const parser = fileStream.pipe(
+    parse({
+      delimiter: ",",
+      columns: headers,
+    })
+  );
 
   let data: Item[] = [];
 
@@ -27,9 +34,16 @@ import { Item } from "./types";
 
     // Zad 1.
     const zad1 = getHighestValueDrop(data);
+
     console.log(`zad1: Najwiekszy spadek ceny - ${zad1.priceDrop}`);
-    console.log(`Id: ${data[zad1.index-1].id} Dzien wczesniej: ${data[zad1.index-1].date} Cena: ${data[zad1.index-1].price}`)
-    console.log(`Id: ${data[zad1.index].id} Dzien teraz: ${data[zad1.index].date} Cena: ${data[zad1.index].price}`)
+    const previousDay = data[zad1.index - 1];
+    const currentDay = data[zad1.index];
+    console.log(
+      `Id: ${previousDay.id} Dzien wczesniej: ${previousDay.date} Cena: ${previousDay.price}`
+    );
+    console.log(
+      `Id: ${currentDay.id} Dzien teraz: ${currentDay.date} Cena: ${currentDay.price}`
+    );
 
     // Zad 2.
     const zad2 = getValueDropPeriods(data);
@@ -38,13 +52,16 @@ import { Item } from "./types";
     // Zad 3.
     const zad3 = getHighestValueDropSum(data);
     console.log(`zad3:`);
-    console.log(`Liczba dni: ${zad3.daysCount}, Łączna wartość spadku: ${zad3.highestValueDropSum}, Początek spadku: ${zad3.valueDropStart}`)
+    console.log(
+      `Liczba dni: ${zad3.daysCount}, Łączna wartość spadku: ${zad3.highestValueDropSum}, Początek spadku: ${zad3.valueDropStart}`
+    );
 
     // Zad 4.
     const zad4 = getHighestConsecutiveValue(data);
     console.log("zad4:");
-    console.log(`Liczba dni: ${zad4.daysCount}, Niezmienna cena: ${zad4.highestConsecutiveValue}, Początek niezmiennej ceny: ${zad4.consecutiveValueStart}`);
-
+    console.log(
+      `Liczba dni: ${zad4.daysCount}, Niezmienna cena: ${zad4.highestConsecutiveValue}, Początek niezmiennej ceny: ${zad4.consecutiveValueStart}`
+    );
   } catch (error) {
     console.error(error);
   }
