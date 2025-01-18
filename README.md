@@ -7,7 +7,7 @@ Aby zainicjalizować projekt, wykonaj następujące kroki:
 1. Sklonuj repozytorium:
 
    ```sh
-   git clone <adres-repozytorium>
+   git clone https://github.com/Jckpt/zad_rek
    ```
 
 2. Przejdź do katalogu projektu:
