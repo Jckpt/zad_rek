@@ -32,6 +32,8 @@ import { Item } from "./types";
       data.push(record);
     }
 
+    // Zapytanie znajduje się w pliku zapytanie.sql
+
     // Zad 1.
     const zad1 = getHighestValueDrop(data);
 
