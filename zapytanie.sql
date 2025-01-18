@@ -1,1 +1,1 @@
-SELECT id, date, price, currency FROM ceny_akcji ORDER BY date DESC;
+SELECT id, date, price, currency FROM ceny_akcji ORDER BY date ASC;
